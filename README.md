@@ -10,34 +10,61 @@
 
 ---
 
-## 🎨 Premium & Modern Arayüz Tasarımı
-Uygulama, modern web tasarımının en iyi pratikleri kullanılarak baştan aşağı yenilenmiş ve göz alıcı bir kullanıcı deneyimi sunacak şekilde tasarlanmıştır:
-- **Glassmorphism (Cam Efekti)**: Yüksek bulanıklık (`blur(20px)`) ve şeffaf katmanlarla hazırlanan premium kart tasarımları (`glass-card`).
-- **Degrade Renk Paleti**: Turuncu, kırmızı ve mor tonlarının muhteşem uyumuyla şekillendirilmiş modern karanlık mod (Dark Mode).
-- **Akıcı Mikro-Animasyonlar**: Sayfa geçişlerinde `fadeInUp`, yükleme durumlarında `pulse-glow` ve özel dönme (`spin`) animasyonları.
-- **Dinamik SVG Puan Göstergesi (ScoreGauge)**: Linear-gradient renk geçişleri, neon parlama gölgesi ve restoran puanına göre değişen durum emojileriyle donatılmış özel çember grafik.
-- **Canlı Durum Rozeti**: Sağ üst köşede uygulamanın aktifliğini gösteren nabız efektli yeşil `CANLI` durum göstergesi.
+## 🛠️ Kullanılan Teknolojiler (Tech Stack)
+
+### Backend (Sunucu & Analiz Motoru)
+- **[FastAPI](https://fastapi.tiangolo.com/)**: Asenkron yapıda çalışan, yüksek performanslı ve modern Python API çatısı.
+- **[Python 3.11+](https://www.python.org/)**: Projenin veri çekme ve analiz algoritmalarının temel dili.
+- **[Uvicorn](https://www.uvicorn.org/)**: Asenkron sunucu geçiş arayüzü (ASGI) sunucusu.
+- **[AsyncOpenAI SDK](https://github.com/openai/openai-python)**: OpenRouter API üzerinden yapay zeka modelleriyle asenkron iletişim kurmak için kullanılan istemci.
+- **[Pydantic v2](https://docs.pydantic.dev/)**: Veri şeması tanımlama ve katı tip/doğrulama kontrolü.
+- **[Python-dotenv](https://github.com/theofidry/django-dotenv)**: `.env` dosyası üzerinden çevre değişkenleri (API Key'ler vb.) güvenli yönetimi.
+- **[Httpx](https://www.python-httpx.org/)**: Google Places ve Serper API sorguları için kullanılan asenkron HTTP istemcisi.
+
+### Frontend (Kullanıcı Arayüzü)
+- **[React 19](https://react.dev/)**: Bileşen tabanlı modern kullanıcı arayüzü kütüphanesi.
+- **[TypeScript](https://www.typescriptlang.org/)**: Güvenli kodlama için statik tip tanımlamaları.
+- **[Vite 8.0](https://vite.dev/)**: Hızlı önbelleklemeli ve yeni nesil frontend derleyici aracı.
+- **[React Router DOM v6](https://reactrouter.com/)**: Sayfalar arası geçiş ve yönlendirme yönetimi.
+- **[Recharts](https://recharts.org/)**: Çizgi, pasta ve radar grafiklerini çizdirmek için asenkron SVG grafik kütüphanesi.
+- **[Lucide React](https://lucide.dev/)**: Modern ve sade arayüz ikon seti.
+- **[Vanilla CSS (Tasarım Sistemi)](https://developer.mozilla.org/en-US/docs/Web/CSS)**: Değişken tabanlı, esnek ve premium cam efekti (glassmorphism) stillerinin, özel scrollbar'ların ve geçiş animasyonlarının sıfırdan tasarlandığı özelleştirilmiş CSS sistemi.
+
+---
+
+## ⚡ Son Yapılan Geliştirmeler & Neler Yaptık?
+
+Proje üzerinde uçtan uca yapılan kapsamlı güncellemeler ve hayata geçirilen yenilikler:
+
+### 1. 🎨 Arayüz Tasarımı & Premium Görsellik
+- **Glassmorphism (Cam Efekti) Entegrasyonu**: Tüm panel ve kart tasarımları (`glass-card`) arka plan bulanıklaştırma (`backdrop-filter: blur(20px)`) ve şık kenarlıklarla (`border: 1px solid rgba(255,255,255,0.06)`) modernize edildi.
+- **Renk ve Tipografi**: Renk paleti HSL uyumlu degradelerle zenginleştirildi; standard sistem fontları yerine **Inter** Google Font sistemi entegre edildi.
+- **Akıcı Mikro-Animasyonlar**: Sayfalara `fadeInUp`, `float`, ve durumsal yüklemelere nabız efekti (`pulse-glow`) kazandırıldı.
+- **Canlı Gösterge Badge'i**: Uygulamanın aktif durumunu gösteren, nabız animasyonlu yeşil bir `CANLI` rozeti header alanına yerleştirildi.
+
+### 2. 📊 Raporlama & Karşılaştırma Sayfası Dönüşümü
+- **Özel SVG Skor Göstergesi (ScoreGauge)**: SVG ile çizilmiş yarım daire puan kadranı, renk geçişli `linear-gradient` dolgu, neon gölgeler ve puan seviyesine göre değişen ikonlarla (`⭐`, `📈`, `⚠️`) zenginleştirildi.
+- **Rakip Karşılaştırma Paneli (`ComparePanel.tsx`)**: Form alanları, giriş kutuları (`input-base`) ve "Karşılaştır" butonları premium tasarıma uyarlandı. İki restoranı tek bir grafikte kıyaslayan **SVG Radar Grafiği** yenilendi ve yapay zeka kazanan değerlendirme kartı animasyonlu hale getirildi.
+- **Detaylı Rapor Kartları**: Güçlü/zayıf yönler yeşil/kırmızı şık çerçevelere, aksiyon önerileri ise öncelik etiketleriyle (yüksek, orta, düşük) modern bilgi kutularına dönüştürüldü.
+
+### 3. 🧠 Backend Zekası & Veri Kalitesi
+- **Google Places API Entegrasyonu & Parser**: Places detay servisinden restoranın tam adres (`formatted_address`) bilgisi çekilerek içinden **şehir bilgisi** otomatik parse edildi.
+- **Çoklu Model Fallback Sistemi**: OpenRouter API üzerinde yaşanabilecek olası gecikmeler veya rate-limit durumları için **Llama 3.3 ➔ Gemma 2 ➔ DeepSeek ➔ Qwen** sıralı yedekleme boru hattı kuruldu.
+- **Akıllı Yerel NLP Duygu Analizi (Local Fallback)**: API anahtarı yokken veya API çöktüğünde devreye giren yerel duygu analizi ve simüle edilmiş trend grafik motoru kurularak uygulamanın kesintisiz (error-free) çalışması garanti altına alındı.
+
+### 4. 📈 SEO & Yayın Kalitesi
+- **SEO İyileştirmeleri**: `index.html` üzerinde Türkçe dil desteği, Open Graph meta etiketleri, açıklama (description), anahtar kelimeler ve emoji tabanlı modern bir favicon tanımlandı.
+- **GitHub Versiyon Kontrolü**: Tüm bu devasa değişiklikler, **parça parça ve açıklayıcı Türkçe commit mesajlarıyla** (toplam 8 commit) adım adım commit'lenip GitHub uzak sunucusuna sorunsuz bir şekilde push'landı.
 
 ---
 
 ## 🚀 Özellikler
 
-- **🔌 Çoklu Veri Kaynağı Entegrasyonu**:
-  - *Manuel Giriş*: Yorumları doğrudan yapıştırarak anında analiz etme.
-  - *Google Places API*: Restoran detaylarından tam adres ve şehir bilgisini otomatik parse ederek gerçek zamanlı yorum çekme.
-  - *Yelp & TripAdvisor*: Serper.dev arama motoru aracılığıyla restoran yorum snippet'larını tarama.
-- **🤖 Akıllı Yapay Zeka Modelleri (OpenRouter)**:
-  - Ücretsiz Tier fallback zinciri sayesinde API kesintilerine son! Sırasıyla: `openrouter/free` ➔ `Llama 3.3` ➔ `Gemma 2` ➔ `DeepSeek` ➔ `Qwen 2.5` denenir.
-- **🔒 Kusursuz Yerel Analiz Yedeklemesi (Local Fallback)**:
-  - API anahtarlarınız olmadığında veya yapay zeka servislerinde limit aşımı yaşandığında, arka planda çalışan **akıllı yerel NLP sentiment analiz motoru** devreye girer ve uygulamanın kesintisiz çalışmasını sağlar.
-- **⚖️ Rakip Karşılaştırma Paneli**:
-  - İki restoranı yan yana ve başa baş kıyaslama.
-  - Yapay zeka tarafından hazırlanan "Kazanan Özeti" ve iki restoranın yemek, servis, fiyat, ambiyans skorlarını karşılaştıran **Radar Grafiği**.
-- **📊 Kapsamlı Dashboard Raporları**:
-  - 📈 *Puan Trendi*: Son 6 ayın skor ve yorum hacmi değişimi.
-  - ☁️ *Kelime Bulutu*: Müşteri yorumlarında en çok öne çıkan kelimeler.
-  - 👨‍🍳 *Detaylı Kategori Skorları*: Yemek kalitesi, servis hızı, fiyat/değer dengesi ve ambiyans için ayrı ayrı puan ve yapay zeka yorumları.
-  - 💡 *Aksiyon Önerileri*: Yüksek, orta, düşük öncelikli çözümler ve bunların restoran üzerindeki beklenen etkileri.
+- **🔌 Çoklu Veri Kaynağı**: Manuel yorum, Google Places API ve Serper.dev (Yelp & TripAdvisor) entegrasyonu.
+- **🤖 Akıllı AI Modelleri**: OpenRouter üzerinden ücretsiz modellerin otomatikfallback mekanizması.
+- **🔒 Kesintisiz Çalışma**: API anahtarları eksik olduğunda otomatik devreye giren demo ve yerel yedek analiz modu.
+- **⚖️ Rakip Karşılaştırma**: İki mekanı tek sayfada puan, analiz özeti ve radar grafiğiyle kıyaslama gücü.
+- **📊 Zengin Görsel Dashboard**: Puan trendi, kelime bulutu, platform kırılımı, kategori analizleri ve eylem planı.
 
 ---
 
