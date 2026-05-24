@@ -4,6 +4,7 @@ import InputPanel from "./components/InputPanel";
 import Dashboard from "./components/Dashboard";
 import LoadingScreen from "./components/LoadingScreen";
 import ComparePanel from "./components/ComparePanel";
+import "./index.css";
 
 const API_BASE = "http://localhost:8000";
 
@@ -78,24 +79,39 @@ function AnalyzePage() {
   };
 
   return (
-    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 24px" }}>
+    <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 28px" }}>
       {loading ? (
         <LoadingScreen reviewsCount={reviewsCount} apiDone={apiDone} onComplete={handleLoadingComplete} />
       ) : !result ? (
-        <InputPanel loading={loading} error={error} onAnalyze={handleAnalyze} />
+        <div className="animate-fade-in-up">
+          <InputPanel loading={loading} error={error} onAnalyze={handleAnalyze} />
+        </div>
       ) : (
-        <div>
-          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 20 }}>
+        <div className="animate-fade-in-up">
+          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 24 }}>
             <button
               onClick={() => { setResult(null); setError(null); }}
-              style={{ padding: "8px 20px", background: "transparent", border: "1px solid #262626", borderRadius: 10, color: "#555", fontSize: 13, cursor: "pointer" }}
+              style={{
+                padding: "9px 20px",
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 10,
+                color: "#666",
+                fontSize: 13,
+                cursor: "pointer",
+                fontFamily: "inherit",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                transition: "all 0.2s",
+              }}
+              onMouseOver={e => { (e.currentTarget as HTMLElement).style.color = "#aaa"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.15)"; }}
+              onMouseOut={e => { (e.currentTarget as HTMLElement).style.color = "#666"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; }}
             >
               ↺ Yeni Analiz
             </button>
           </div>
-          <div style={{ animation: "fadeInUp 0.5s ease both" }}>
-            <Dashboard data={result} />
-          </div>
+          <Dashboard data={result} />
         </div>
       )}
     </div>
@@ -104,31 +120,95 @@ function AnalyzePage() {
 
 // ── Header ───────────────────────────────────────────────────────────────────
 function Header() {
-  const linkStyle = (isActive: boolean): React.CSSProperties => ({
-    padding: "6px 16px",
-    borderRadius: 8,
-    fontSize: 13,
-    fontWeight: 500,
-    cursor: "pointer",
-    textDecoration: "none",
-    transition: "all .2s",
-    background: isActive ? "#f9731622" : "transparent",
-    color: isActive ? "#f97316" : "#555",
-    border: isActive ? "1px solid #f9731633" : "1px solid transparent",
-  });
-
   return (
-    <div style={{ borderBottom: "1px solid #1a1a1a", padding: "14px 32px", display: "flex", alignItems: "center", gap: 16, position: "sticky", top: 0, background: "#0a0a0aee", backdropFilter: "blur(12px)", zIndex: 50 }}>
-      <div style={{ width: 32, height: 32, background: "linear-gradient(135deg, #f97316, #ef4444)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>🍽️</div>
-      <div style={{ marginRight: "auto" }}>
-        <div style={{ fontWeight: 700, fontSize: 15, color: "#fff" }}>Restoran Analiz AI</div>
-        <div style={{ fontSize: 11, color: "#444" }}>Müşteri yorumlarını yapay zeka ile analiz et</div>
+    <header style={{
+      borderBottom: "1px solid rgba(255,255,255,0.06)",
+      padding: "0 32px",
+      height: 64,
+      display: "flex",
+      alignItems: "center",
+      gap: 16,
+      position: "sticky",
+      top: 0,
+      background: "rgba(8,8,8,0.85)",
+      backdropFilter: "blur(20px)",
+      WebkitBackdropFilter: "blur(20px)",
+      zIndex: 100,
+    }}>
+      {/* Logo */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginRight: "auto" }}>
+        <div style={{
+          width: 36,
+          height: 36,
+          background: "linear-gradient(135deg, #f97316, #ef4444)",
+          borderRadius: 10,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 18,
+          boxShadow: "0 4px 12px rgba(249,115,22,0.4)",
+          flexShrink: 0,
+        }}>
+          🍽️
+        </div>
+        <div>
+          <div style={{ fontWeight: 800, fontSize: 15, color: "#fff", letterSpacing: "-0.01em" }}>
+            Restoran Analiz <span className="gradient-text">AI</span>
+          </div>
+          <div style={{ fontSize: 11, color: "#444", marginTop: 1 }}>
+            Yapay zeka destekli yorum analitiği
+          </div>
+        </div>
       </div>
-      <nav style={{ display: "flex", gap: 6 }}>
-        <NavLink to="/" end style={({ isActive }) => linkStyle(isActive)}>🔍 Analiz</NavLink>
-        <NavLink to="/compare" style={({ isActive }) => linkStyle(isActive)}>⚖️ Karşılaştır</NavLink>
+
+      {/* Nav */}
+      <nav style={{ display: "flex", gap: 4 }}>
+        {[
+          { to: "/",        label: "Analiz",       icon: "🔍", end: true  },
+          { to: "/compare", label: "Karşılaştır",  icon: "⚖️", end: false },
+        ].map(({ to, label, icon, end }) => (
+          <NavLink key={to} to={to} end={end} style={({ isActive }) => ({
+            padding: "7px 16px",
+            borderRadius: 8,
+            fontSize: 13,
+            fontWeight: 500,
+            cursor: "pointer",
+            textDecoration: "none",
+            transition: "all 0.2s",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            background: isActive ? "rgba(249,115,22,0.12)" : "transparent",
+            color: isActive ? "#f97316" : "#666",
+            border: isActive ? "1px solid rgba(249,115,22,0.2)" : "1px solid transparent",
+          })}>
+            <span style={{ fontSize: 14 }}>{icon}</span>
+            {label}
+          </NavLink>
+        ))}
       </nav>
-    </div>
+
+      {/* Status badge */}
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+        padding: "5px 12px",
+        borderRadius: 99,
+        background: "rgba(34,197,94,0.08)",
+        border: "1px solid rgba(34,197,94,0.15)",
+      }}>
+        <div style={{
+          width: 6,
+          height: 6,
+          borderRadius: "50%",
+          background: "#22c55e",
+          boxShadow: "0 0 6px #22c55e",
+          animation: "pulse-glow 2s infinite",
+        }} />
+        <span style={{ fontSize: 11, color: "#22c55e", fontWeight: 600 }}>CANLI</span>
+      </div>
+    </header>
   );
 }
 
@@ -136,22 +216,17 @@ function Header() {
 export default function App() {
   return (
     <BrowserRouter>
-      <div style={{ minHeight: "100vh", background: "#0a0a0a" }}>
+      <div style={{ minHeight: "100vh" }}>
         <Header />
         <Routes>
           <Route path="/"        element={<AnalyzePage />} />
           <Route path="/compare" element={
-            <div style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 24px" }}>
+            <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 28px" }}>
               <ComparePanel />
             </div>
           } />
         </Routes>
       </div>
-      <style>{`
-        @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; }
-      `}</style>
     </BrowserRouter>
   );
 }
