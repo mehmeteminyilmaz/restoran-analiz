@@ -163,13 +163,17 @@ export default function ComparePanel() {
               <div key={r.name} style={{ ...CARD, border: `1px solid ${color}33` }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
                   <div style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{r.name}</div>
-                  <div style={{ fontSize: 36, fontWeight: 900, color: scoreColor(r.analiz.genel_skor) }}>
-                    {r.analiz.genel_skor}
+                  <div style={{ fontSize: 36, fontWeight: 900, color: scoreColor(r.analiz.genel_skor ?? 0) }}>
+                    {r.analiz.genel_skor ?? 0}
                   </div>
                 </div>
-                <p style={{ fontSize: 13, color: "#666", lineHeight: 1.6, marginBottom: 14 }}>{r.analiz.ozet}</p>
-                <div style={{ fontSize: 12, color: "#22c55e", marginBottom: 6 }}>✅ {r.analiz.guclu_yonler[0]}</div>
-                <div style={{ fontSize: 12, color: "#ef4444" }}>⚠️ {r.analiz.zayif_yonler[0]}</div>
+                <p style={{ fontSize: 13, color: "#666", lineHeight: 1.6, marginBottom: 14 }}>{r.analiz.ozet || "Özet yok."}</p>
+                <div style={{ fontSize: 12, color: "#22c55e", marginBottom: 6 }}>
+                  ✅ {r.analiz.guclu_yonler?.[0] || "Belirlenmedi"}
+                </div>
+                <div style={{ fontSize: 12, color: "#ef4444" }}>
+                  ⚠️ {r.analiz.zayif_yonler?.[0] || "Belirlenmedi"}
+                </div>
               </div>
             ))}
           </div>
