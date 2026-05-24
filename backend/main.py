@@ -74,7 +74,13 @@ async def _resolve_reviews(r: CompareRestaurant) -> tuple[list[str], list[dict]]
 
 @app.get("/")
 def root():
-    return {"status": "Restoran Analiz AI v2.0 çalışıyor", "version": "2.0.0"}
+    import os
+    return {
+        "status": "Restoran Analiz AI v2.0 çalışıyor",
+        "version": "2.0.0",
+        "has_google_key": bool(os.getenv("GOOGLE_PLACES_API_KEY", "").strip()),
+        "has_serper_key": bool(os.getenv("SERPER_API_KEY", "").strip()),
+    }
 
 
 @app.post("/analyze/text")
