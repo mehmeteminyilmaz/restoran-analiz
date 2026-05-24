@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 
 interface Props {
@@ -32,6 +32,20 @@ export default function InputPanel({ loading, error, onAnalyze }: Props) {
   const [placeId, setPlaceId]       = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [reviewCount, setReviewCount] = useState(20);
+  const [hasSerperKey, setHasSerperKey] = useState(false);
+  const [hasGoogleKey, setHasGoogleKey] = useState(false);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/")
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          setHasSerperKey(!!data.has_serper_key);
+          setHasGoogleKey(!!data.has_google_key);
+        }
+      })
+      .catch(err => console.error("Error fetching config status:", err));
+  }, []);
 
   const handleSubmit = () => {
     if (mode === "text") {
@@ -124,6 +138,9 @@ export default function InputPanel({ loading, error, onAnalyze }: Props) {
                 Google Places ID Finder →
               </a>
             </div>
+            <div style={{ padding: "12px 14px", background: hasGoogleKey ? "#080a08" : "#0a0800", border: hasGoogleKey ? "1px solid #10b98122" : "1px solid #f9731622", borderRadius: 10, fontSize: 12, color: "#888" }}>
+              📍 {hasGoogleKey ? "Google Places API: Aktif — Gerçek yorumlar çekiliyor 🟢" : "Google Places API: Demo mod — GOOGLE_PLACES_API_KEY yok 🟡"}
+            </div>
             <div>
               <label style={{ fontSize: 12, color: "#555", display: "block", marginBottom: 6 }}>
                 Çekilecek yorum sayısı: {reviewCount}
@@ -154,9 +171,9 @@ export default function InputPanel({ loading, error, onAnalyze }: Props) {
                 }}
               />
             </div>
-            <div style={{ padding: "12px 14px", background: "#080a0a", border: "1px solid #3b82f622", borderRadius: 10, fontSize: 12, color: "#888" }}>
+            <div style={{ padding: "12px 14px", background: hasSerperKey ? "#080a08" : "#080a0a", border: hasSerperKey ? "1px solid #10b98122" : "1px solid #3b82f622", borderRadius: 10, fontSize: 12, color: "#888" }}>
               🔍 Yelp ve TripAdvisor'dan otomatik yorum snippet'ları çekilir.
-              {!import.meta.env.VITE_SERPER_KEY && " (Demo mod — SERPER_API_KEY eklenmemiş)"}
+              {hasSerperKey ? " (Aktif — Gerçek yorumlar çekiliyor 🟢)" : " (Demo mod — SERPER_API_KEY eklenmemiş 🟡)"}
             </div>
             <div>
               <label style={{ fontSize: 12, color: "#555", display: "block", marginBottom: 6 }}>
