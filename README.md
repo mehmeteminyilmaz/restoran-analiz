@@ -1,4 +1,5 @@
-# 🍽️ Restoran Analiz AI — Yapay Zeka Destekli Yorum Analitiği
+#        🍽️ Restoran Analiz AI  
+#  Yapay Zeka Destekli Yorum Analitiği
 
 > Müşteri yorumlarını yapay zeka modelleriyle derinlemesine analiz eden, platform bazlı veri toplayan ve göz alıcı premium arayüzüyle görsel raporlar üreten full-stack SaaS uygulaması.
 
